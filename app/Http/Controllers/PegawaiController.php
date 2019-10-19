@@ -18,6 +18,13 @@ class PegawaiController extends Controller
 		return response()->json($pegawai);
 	}
 	
+	public function trash()
+	{
+		$pegawai = Pegawai::onlyTrashed()->paginate(5);
+		
+		return response()->json($pegawai);
+	}
+	
 	public function view()
 	{
 		return view('pegawai.view');
@@ -62,6 +69,31 @@ class PegawaiController extends Controller
 		$pegawai->pegawai_nama = $request->nama;
 		$pegawai->pegawai_alamat = $request->alamat;
 		$pegawai->save();
+		
+		return response()->json($pegawai);
+		// return redirect()->back();
+	}
+	
+	public function delete($id)
+	{
+		$pegawai = Pegawai::find($id);
+		$pegawai->delete();
+		
+		return response()->json($pegawai);
+	}
+	
+	public function deleteForce($id)
+	{
+		$pegawai = Pegawai::onlyTrashed()->where('id', $id);
+		$pegawai->forceDelete();
+		
+		return response()->json($pegawai);
+	}
+	
+	public function restore($id)
+	{
+		$pegawai = Pegawai::onlyTrashed()->where('id', $id);
+		$pegawai->restore();
 		
 		return response()->json($pegawai);
 	}

@@ -1,27 +1,30 @@
 <template>
 	<div class="table-responsive">
-		<button class="btn btn-primary" id="show-modal" @click="openModal('add')">add pegawai</button>
+		<button class="btn btn-primary" id="show-modal" @click="openModal('add')">add</button>&nbsp;
+		<router-link to="/pegawai/trash"><button class="btn btn-primary">recycle bin</button></router-link>
 		<hr>
 		<table class="table">
 			<thead>
 				<tr>
-					<th>No.</th>
-					<th>Nama</th>
-					<th>Alamat</th>
-					<th>Created</th>
-					<th>Updated</th>
-					<th class="text-right">Actions</th>
+					<th width="5%">No.</th>
+					<th width="10%">Nama</th>
+					<th width="35%">Alamat</th>
+					<th width="10%">Created</th>
+					<th width="10%">Updated</th>
+					<th width="10%" class="text-center">Actions</th>
 				</tr>
 			</thead>
-
 			<tbody>
 				<tr v-for="(pegawai, index) in list.data">
 					<td>#</td>
-					<td>{{ pegawai.pegawai_nama }} </td>
-					<td>{{ pegawai.pegawai_alamat }} </td>
-					<td>{{ pegawai.created_at }} </td>
-					<td>{{ pegawai.updated_at }} </td>
-					<td class="text-right"><button class="btn btn-primary" id="show-modal" @click="openModal('edit', pegawai.id)">edit</button></td>
+					<td>{{ pegawai.pegawai_nama }}</td>
+					<td>{{ pegawai.pegawai_alamat }}</td>
+					<td>{{ pegawai.created_at }}</td>
+					<td>{{ pegawai.updated_at }}</td>
+					<td class="text-center">
+						<button class="btn btn-primary" id="show-modal" @click="openModal('edit', pegawai.id)">edit</button>&nbsp;
+						<button class="btn btn-danger" @click="del(pegawai.id)">del</button>
+					</td>
 				</tr>
 			</tbody>
 		</table>
@@ -29,7 +32,7 @@
 		<modal v-if="show_modal" @close="show_modal = false">
 			<h3 slot="header" id="modal_title">custom header</h3>
 			<div slot="body">
-				<validation-errors :errors="validationErrors" v-if="validationErrors"></validation-errors>
+				<validation-errors :errors="validation_errors" v-if="validation_errors"></validation-errors>
 				<div class="form-group">
 					<label>nama</label>
 					<input class="form-control" type="text" v-model="pegawai.nama">
@@ -49,7 +52,8 @@
 	</div>
 </template>
 <script>
-	export default {
+	export default
+	{
 		data: function()
 		{
 			return {
@@ -61,7 +65,7 @@
 					nama: '',
 					alamat: '',
 				},
-				validationErrors: '' 
+				validation_errors: '' 
 			}
 		},
 		mounted: function()
@@ -83,12 +87,13 @@
 					this.list = response.data
 				}).catch(error => {
 					alert(error.message)
-				});
+				})
 			},
 			openModal: function(method, id)
 			{
 				this.session_active = method
 				this.show_modal = true
+				this.validation_errors = ''
 				
 				this.init()
 				
@@ -103,7 +108,7 @@
 						this.pegawai.alamat = response.data.pegawai_alamat
 					}).catch(error => {
 						alert(error.message)
-					});
+					})
 				} else {
 					$('#modal_title').html('UNKNOWN')
 				}
@@ -123,11 +128,11 @@
 					this.show_modal = false
 				}).catch(error => {
 					if (error.response.status == 422) {
-						this.validationErrors = error.response.data.errors
+						this.validation_errors = error.response.data.errors
 					} else {
 						alert('Connection error !')
 					}
-				});
+				})
 			},
 			edit: function(id)
 			{
@@ -144,11 +149,22 @@
 					this.show_modal = false
 				}).catch(error => {
 					if (error.response.status == 422) {
-						this.validationErrors = error.response.data.errors
+						this.validation_errors = error.response.data.errors
 					} else {
 						alert('Connection error !')
 					}
-				});
+				})
+			},
+			del: function(id)
+			{
+				var params = {}
+				axios.post('api/pegawai/delete/' + id, params, {credential: true}).then(response => {
+					alert('berhasil di delete')
+					
+					this.getPage()
+				}).catch(error => {
+					alert(error.message)
+				})
 			},
 		}
 	}

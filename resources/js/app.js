@@ -19,7 +19,7 @@ const routes = [
 	{ path: '/blog', component: require('./components/dashboard/blog.vue').default },
 	{ path: '/login', component: require('./components/auth/login.vue').default },
 	{ path: '/pegawai', component: require('./components/pegawai/index.vue').default },
-	{ path: '/pegawai/add', component: require('./components/pegawai/add.vue').default }
+	{ path: '/pegawai/trash', component: require('./components/pegawai/trash.vue').default }
 ]
 
 const router = new VueRouter({ routes });
