@@ -14,7 +14,8 @@ component vue yang sudah bisa di gunakan :
 - resource by axios
 - pagination
 - modal
-- validation errors
+- validation errors (optional)
+- vform axios (optional)
 
 jalankan perintah pengambilan paket (laravel) yang di butuhkan :
 ```bash

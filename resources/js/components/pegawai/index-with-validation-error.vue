@@ -23,7 +23,7 @@
 					<td>{{ pegawai.updated_at }}</td>
 					<td class="text-center">
 						<button class="btn btn-primary" id="show-modal" @click="openModal('edit', pegawai.id)">edit</button>&nbsp;
-						<button class="btn btn-danger" @click="del(form.id)">del</button>
+						<button class="btn btn-danger" @click="del(pegawai.id)">del</button>
 					</td>
 				</tr>
 			</tbody>
@@ -32,20 +32,19 @@
 		<modal v-if="show_modal" @close="show_modal = false">
 			<h3 slot="header" id="modal_title">custom header</h3>
 			<div slot="body">
+				<validation-errors :errors="validation_errors" v-if="validation_errors"></validation-errors>
 				<div class="form-group">
 					<label>nama</label>
-					<input v-model="form.nama" :class="{ 'is-invalid': form.errors.has('nama') }" class="form-control" type="text" name="nama">
-					<has-error :form="form" field="nama" />
+					<input class="form-control" type="text" v-model="pegawai.nama">
 				</div>
 				<div class="form-group">
 					<label>alamat</label>
-					<input v-model="form.alamat" :class="{ 'is-invalid': form.errors.has('alamat') }" class="form-control" type="text" name="alamat">
-					<has-error :form="form" field="alamat" />
+					<input class="form-control" type="text" v-model="pegawai.alamat">
 				</div>
 			</div>
 			<div slot="footer">
 				<button class="btn btn-primary" @click="add()" v-if="session_active == 'add'">Simpan</button>
-				<button class="btn btn-primary" @click="edit(form.id)" v-else-if="session_active == 'edit'">Edit</button>
+				<button class="btn btn-primary" @click="edit(pegawai.id)" v-else-if="session_active == 'edit'">Edit</button>
 				&nbsp;
 				<button class="btn btn-secondary" @click="show_modal = false">Close</button>
 			</div>
@@ -53,8 +52,6 @@
 	</div>
 </template>
 <script>
-	import Form from 'vform'
-	
 	export default
 	{
 		data: function()
@@ -63,11 +60,12 @@
 				list: {},
 				show_modal: false,
 				session_active: 'add',
-				form: new Form({
+				pegawai: {
 					id: '',
 					nama: '',
 					alamat: '',
-				})
+				},
+				validation_errors: '' 
 			}
 		},
 		mounted: function()
@@ -75,6 +73,12 @@
 			this.getPage()
 		},
 		methods: {
+			init: function()
+			{
+				this.pegawai.id = ''
+				this.pegawai.nama = ''
+				this.pegawai.alamat = ''
+			},
 			getPage: function(page)
 			{
 				if (typeof page === 'undefined') page = 1
@@ -89,6 +93,9 @@
 			{
 				this.session_active = method
 				this.show_modal = true
+				this.validation_errors = ''
+				
+				this.init()
 				
 				if (method == 'add') {
 					$('#modal_title').html('ADD NEW PEGAWAI')
@@ -96,9 +103,9 @@
 					$('#modal_title').html('EDIT PEGAWAI')
 					
 					axios.get('/api/pegawai/edit/' + id).then(response => {
-						this.form.id = response.data.id
-						this.form.nama = response.data.pegawai_nama
-						this.form.alamat = response.data.pegawai_alamat
+						this.pegawai.id = response.data.id
+						this.pegawai.nama = response.data.pegawai_nama
+						this.pegawai.alamat = response.data.pegawai_alamat
 					}).catch(error => {
 						alert(error.message)
 					})
@@ -106,27 +113,52 @@
 					$('#modal_title').html('UNKNOWN')
 				}
 			},
-			async add()
+			add: function()
 			{
-				const { data } = await this.form.post('/api/pegawai/add')
-				
-				alert('berhasil di simpan')
-				
-				this.getPage()
-				this.show_modal = false
+				var params = {
+					nama: this.pegawai.nama,
+					alamat: this.pegawai.alamat
+				}
+				axios.post('/api/pegawai/add', params, {credential: true}).then(response => {
+					alert('berhasil di simpan')
+					
+					this.init()
+					this.getPage()
+					
+					this.show_modal = false
+				}).catch(error => {
+					if (error.response.status == 422) {
+						this.validation_errors = error.response.data.errors
+					} else {
+						alert('Connection error !')
+					}
+				})
 			},
-			async edit(id)
+			edit: function(id)
 			{
-				const { data } = await this.form.post('/api/pegawai/update/' + id)
-				
-				alert('berhasil di update')
-				
-				this.getPage()
-				this.show_modal = false
+				var params = {
+					nama: this.pegawai.nama,
+					alamat: this.pegawai.alamat
+				}
+				axios.post('/api/pegawai/update/' + id, params, {credential: true}).then(response => {
+					alert('berhasil di update')
+					
+					this.init()
+					this.getPage()
+						
+					this.show_modal = false
+				}).catch(error => {
+					if (error.response.status == 422) {
+						this.validation_errors = error.response.data.errors
+					} else {
+						alert('Connection error !')
+					}
+				})
 			},
 			del: function(id)
 			{
-				axios.post('api/pegawai/delete/' + id, {}, {credential: true}).then(response => {
+				var params = {}
+				axios.post('api/pegawai/delete/' + id, params, {credential: true}).then(response => {
 					alert('berhasil di delete')
 					
 					this.getPage()

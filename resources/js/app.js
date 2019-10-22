@@ -13,6 +13,15 @@ Vue.component('validation-errors', require('./components/ValidationErrorsCompone
 import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
+import { HasError, AlertError, AlertSuccess } from 'vform'
+[
+	HasError,
+	AlertError,
+	AlertSuccess
+].forEach(Component => {
+	Vue.component(Component.name, Component)
+})
+
 const routes = [
 	{ path: '/', redirect: '/dashboard' },
 	{ path: '/dashboard', component: require('./components/dashboard/welcome.vue').default },
