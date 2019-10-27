@@ -1,6 +1,4 @@
 <?php
-Route::get('/', function () {
-	return view('content');
-});
-
-Auth::routes();
+Route::get('/{any?}', function () {
+	return view('layouts.app');
+})->where('any', '^(?!api\/)[\/\w\.-]*');

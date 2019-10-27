@@ -79,7 +79,7 @@
 			{
 				if (typeof page === 'undefined') page = 1
 				
-				axios.get('/api/pegawai/page?page=' + page).then(response => {
+				axios.get('pegawai/page?page=' + page).then(response => {
 					this.list = response.data
 				}).catch(error => {
 					alert(error.message)
@@ -95,7 +95,7 @@
 				} else if (method == 'edit') {
 					$('#modal_title').html('EDIT PEGAWAI')
 					
-					axios.get('/api/pegawai/edit/' + id).then(response => {
+					axios.get('pegawai/edit/' + id).then(response => {
 						this.form.id = response.data.id
 						this.form.nama = response.data.pegawai_nama
 						this.form.alamat = response.data.pegawai_alamat
@@ -108,7 +108,7 @@
 			},
 			async add()
 			{
-				const { data } = await this.form.post('/api/pegawai/add')
+				const { data } = await this.form.post('/pegawai/add')
 				
 				alert('berhasil di simpan')
 				
@@ -117,7 +117,7 @@
 			},
 			async edit(id)
 			{
-				const { data } = await this.form.post('/api/pegawai/update/' + id)
+				const { data } = await this.form.post('pegawai/update/' + id)
 				
 				alert('berhasil di update')
 				
@@ -126,7 +126,7 @@
 			},
 			del: function(id)
 			{
-				axios.post('api/pegawai/delete/' + id, {}, {credential: true}).then(response => {
+				axios.post('pegawai/delete/' + id, {}, {credential: true}).then(response => {
 					alert('berhasil di delete')
 					
 					this.getPage()

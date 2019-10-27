@@ -43,7 +43,7 @@
 			{
 				if (typeof page === 'undefined') page = 1
 				
-				axios.get('/api/pegawai/trash?page=' + page).then(response => {
+				axios.get('pegawai/trash?page=' + page).then(response => {
 					this.list = response.data
 				}).catch(error => {
 					alert(error.message)
@@ -52,7 +52,7 @@
 			restore: function(id)
 			{
 				var params = {}
-				axios.post('api/pegawai/restore/' + id, params, {credential: true}).then(response => {
+				axios.post('pegawai/restore/' + id, params, {credential: true}).then(response => {
 					alert('berhasil di restore')
 					
 					this.getPage()
@@ -64,7 +64,7 @@
 			{
 				if (confirm("Yakin hapus permanen ?")) {
 					var params = {}
-					axios.post('api/pegawai/delete-force/' + id, params, {credential: true}).then(response => {
+					axios.post('pegawai/delete-force/' + id, params, {credential: true}).then(response => {
 						alert('berhasil di delete permanen')
 					}).catch(error => {
 						alert(error.message)

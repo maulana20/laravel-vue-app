@@ -41,15 +41,6 @@ yang sudah :
 
 Tampilan
 
-list
-![home](https://github.com/maulana20/laravel-vue-app/blob/master/image/home.PNG)
-
-edit
-![edit](https://github.com/maulana20/laravel-vue-app/blob/master/image/edit.PNG)
-
-trash
-![trash](https://github.com/maulana20/laravel-vue-app/blob/master/image/trash.PNG)
-
 auth:api
 
 login
@@ -60,3 +51,17 @@ user
 
 logout
 ![logout](https://github.com/maulana20/laravel-vue-app/blob/master/image/logout.PNG)
+
+view
+
+login
+![login-vue](https://github.com/maulana20/laravel-vue-app/blob/master/image/login-vue.PNG)
+
+home
+![home](https://github.com/maulana20/laravel-vue-app/blob/master/image/home.PNG)
+
+edit
+![edit](https://github.com/maulana20/laravel-vue-app/blob/master/image/edit.PNG)
+
+trash
+![trash](https://github.com/maulana20/laravel-vue-app/blob/master/image/trash.PNG)
