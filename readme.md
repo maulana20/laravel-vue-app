@@ -6,6 +6,8 @@ Sebagai pembelajaran penggunaan vue pada laravel 6.2.0
 
 sumber https://www.malasngoding.com/category/laravel/
 
+sumber auth:api https://medium.com/@ripoche.b/create-a-spa-with-role-based-authentication-with-laravel-and-vue-js-ac4b260b882f
+
 Langkah sebelum memulai :
 - sudah menginstal composer (depedencies)
 
@@ -35,6 +37,7 @@ php artisan db:seed --class=PegawaiSeeder
 yang sudah :
 1. CRUD pegawai (test)
 2. Soft delete (penghapusan data sementara) pegawai
+3. Login with auth:api (postman test)
 
 Tampilan
 
@@ -46,3 +49,14 @@ edit
 
 trash
 ![trash](https://github.com/maulana20/laravel-vue-app/blob/master/image/trash.PNG)
+
+auth:api
+
+login
+![login](https://github.com/maulana20/laravel-vue-app/blob/master/image/login.PNG)
+
+user
+![user](https://github.com/maulana20/laravel-vue-app/blob/master/image/user.PNG)
+
+logout
+![logout](https://github.com/maulana20/laravel-vue-app/blob/master/image/logout.PNG)
