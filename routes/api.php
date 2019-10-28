@@ -2,7 +2,7 @@
 use Illuminate\Http\Request;
 
 Route::prefix('auth')->group(function () {
-	Route::post('register', 'AuthController@register');
+	Route::post('register', 'UserController@register');
 	Route::post('login', 'AuthController@login');
 	Route::get('refresh', 'AuthController@refresh');
 	Route::group(['middleware' => 'auth:api'], function () {
@@ -11,15 +11,21 @@ Route::prefix('auth')->group(function () {
 	});
 });
 
-Route::group([], function () {
-	Route::get('pegawai', 'PegawaiController@view')->name('pegawai');
-	Route::get('pegawai/page', 'PegawaiController@page');
-	Route::get('pegawai/trash', 'PegawaiController@trash');
-	Route::get('pegawai/edit/{id}', 'PegawaiController@edit');
-	Route::post('pegawai/update/{id}', 'PegawaiController@update');
-	Route::post('pegawai/delete/{id}', 'PegawaiController@delete');
-	Route::post('pegawai/delete-force/{id}', 'PegawaiController@deleteForce');
-	Route::post('pegawai/restore/{id}', 'PegawaiController@restore');
-	Route::get('pegawai/find', 'PegawaiController@find');
-	Route::post('pegawai/add', 'PegawaiController@add');
+Route::group(['middleware' => 'auth:api'], function () {
+	Route::prefix('user')->group(function () {
+		Route::get('page', 'AuthController@page');
+		Route::get('edit/{id}', 'UserController@edit');
+	});
+	// Route::get('pegawai', 'PegawaiController@view')->name('pegawai');
+	Route::prefix('pegawai')->group(function () {
+		Route::get('page', 'PegawaiController@page');
+		Route::get('trash', 'PegawaiController@trash');
+		Route::get('edit/{id}', 'PegawaiController@edit');
+		Route::post('update/{id}', 'PegawaiController@update');
+		Route::post('delete/{id}', 'PegawaiController@delete');
+		Route::post('delete-force/{id}', 'PegawaiController@deleteForce');
+		Route::post('restore/{id}', 'PegawaiController@restore');
+		Route::get('find', 'PegawaiController@find');
+		Route::post('add', 'PegawaiController@add');
+	});
 });

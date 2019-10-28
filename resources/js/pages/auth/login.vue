@@ -40,14 +40,14 @@
 					},
 					success: function ()
 					{
+						console.log(this.$auth.user().role)
 						this.$router.push({name: 'dashboard'})
 					},
 					error: function (err)
 					{
 						this.has_error = true
 					},
-					rememberMe: true,
-					fetchUser: true
+					rememberMe: true
 				})
 			}
 		}

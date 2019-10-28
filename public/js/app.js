@@ -3230,6 +3230,7 @@ __webpack_require__.r(__webpack_exports__);
           password: this.password
         },
         success: function success() {
+          console.log(this.$auth.user().role);
           this.$router.push({
             name: 'dashboard'
           });
@@ -3237,8 +3238,7 @@ __webpack_require__.r(__webpack_exports__);
         error: function error(err) {
           this.has_error = true;
         },
-        rememberMe: true,
-        fetchUser: true
+        rememberMe: true
       });
     }
   }
@@ -59309,19 +59309,6 @@ vue__WEBPACK_IMPORTED_MODULE_3___default.a.component('navigation', __webpack_req
 [vform__WEBPACK_IMPORTED_MODULE_9__["HasError"], vform__WEBPACK_IMPORTED_MODULE_9__["AlertError"], vform__WEBPACK_IMPORTED_MODULE_9__["AlertSuccess"]].forEach(function (Component) {
   vue__WEBPACK_IMPORTED_MODULE_3___default.a.component(Component.name, Component);
 });
-/*
-const routes = [
-	{ path: '/', redirect: '/dashboard' },
-	{ path: '/dashboard', component: require('./components/dashboard/welcome.vue').default },
-	{ path: '/blog', component: require('./components/dashboard/blog.vue').default },
-	{ path: '/login', component: require('./components/auth/login.vue').default },
-	{ path: '/pegawai', component: require('./components/pegawai/index.vue').default },
-	{ path: '/pegawai/trash', component: require('./components/pegawai/trash.vue').default }
-]
-
-const router = new VueRouter({ routes });
-*/
-
 var app = new vue__WEBPACK_IMPORTED_MODULE_3___default.a({
   el: '#app',
   router: _router__WEBPACK_IMPORTED_MODULE_8__["default"]
@@ -59701,7 +59688,8 @@ var config = {
   loginData: {
     url: 'auth/login',
     method: 'POST',
-    redirect: ''
+    redirect: '',
+    fetchUser: true
   },
   logoutData: {
     url: 'auth/logout',
