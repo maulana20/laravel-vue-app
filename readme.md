@@ -19,9 +19,18 @@ component vue yang sudah bisa di gunakan :
 - validation errors (optional)
 - vform axios (optional)
 
-jalankan perintah pengambilan paket (laravel) yang di butuhkan :
+proses yang di jalankan
+- auth:api with jwt-auth
+- vue-auth (bearer token) with websanova
+
+jalankan perintah pengambilan paket laravel (composer.json) yang di butuhkan :
 ```bash
-composer install
+composer install or update
+```
+
+jalankan perintah pengambilan paket vue (package.json) yang di butuhkan :
+```bash
+npm install
 ```
 
 jalankan perintah penambahan table :

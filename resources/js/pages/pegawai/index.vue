@@ -1,55 +1,61 @@
 <template>
-	<div class="table-responsive">
-		<button class="btn btn-primary" id="show-modal" @click="openModal('add')">add</button>&nbsp;
-		<router-link to="/pegawai/trash"><button class="btn btn-primary">recycle bin</button></router-link>
-		<hr>
-		<table class="table">
-			<thead>
-				<tr>
-					<th width="5%">No.</th>
-					<th width="10%">Nama</th>
-					<th width="35%">Alamat</th>
-					<th width="10%">Created</th>
-					<th width="10%">Updated</th>
-					<th width="10%" class="text-center">Actions</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr v-for="(pegawai, index) in list.data">
-					<td>#</td>
-					<td>{{ pegawai.pegawai_nama }}</td>
-					<td>{{ pegawai.pegawai_alamat }}</td>
-					<td>{{ pegawai.created_at }}</td>
-					<td>{{ pegawai.updated_at }}</td>
-					<td class="text-center">
-						<button class="btn btn-primary" id="show-modal" @click="openModal('edit', pegawai.id)">edit</button>&nbsp;
-						<button class="btn btn-danger" @click="del(form.id)">del</button>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-		<pagination :data="list" @pagination-change-page="getPage"></pagination>
-		<modal v-if="show_modal" @close="show_modal = false">
-			<h3 slot="header" id="modal_title">custom header</h3>
-			<div slot="body">
-				<div class="form-group">
-					<label>nama</label>
-					<input v-model="form.nama" :class="{ 'is-invalid': form.errors.has('nama') }" class="form-control" type="text" name="nama">
-					<has-error :form="form" field="nama" />
-				</div>
-				<div class="form-group">
-					<label>alamat</label>
-					<input v-model="form.alamat" :class="{ 'is-invalid': form.errors.has('alamat') }" class="form-control" type="text" name="alamat">
-					<has-error :form="form" field="alamat" />
+	<div class="card card-default">
+		<div class="card-header">Pegawai</div>
+			<div class="card-body">
+				<div class="table-responsive">
+					<button class="btn btn-primary btn-sm" id="show-modal" @click="openModal('add')">add</button>&nbsp;
+					<router-link :to="{ name: 'pegawai.trash' }"><button class="btn btn-primary btn-sm">recycle bin</button></router-link>
+					<hr>
+					<table class="table">
+						<thead>
+							<tr>
+								<th width="5%">No.</th>
+								<th width="10%">Nama</th>
+								<th width="35%">Alamat</th>
+								<th width="10%">Created</th>
+								<th width="10%">Updated</th>
+								<th width="10%" class="text-center">Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="(pegawai, index) in list.data">
+								<td>#</td>
+								<td>{{ pegawai.pegawai_nama }}</td>
+								<td>{{ pegawai.pegawai_alamat }}</td>
+								<td>{{ pegawai.created_at }}</td>
+								<td>{{ pegawai.updated_at }}</td>
+								<td class="text-center">
+									<button class="btn btn-primary btn-sm" id="show-modal" @click="openModal('edit', pegawai.id)">edit</button>&nbsp;
+									<button class="btn btn-danger btn-sm" @click="del(pegawai.id)">del</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<pagination :data="list" @pagination-change-page="getPage"></pagination>
+					<modal v-if="show_modal" @close="show_modal = false">
+						<h3 slot="header" id="modal_title">Data Pegawai</h3>
+						<div slot="body">
+							<div class="form-group">
+								<label>nama</label>
+								<input v-model="form.nama" :class="{ 'is-invalid': form.errors.has('nama') }" class="form-control" type="text" name="nama">
+								<has-error :form="form" field="nama" />
+							</div>
+							<div class="form-group">
+								<label>alamat</label>
+								<input v-model="form.alamat" :class="{ 'is-invalid': form.errors.has('alamat') }" class="form-control" type="text" name="alamat">
+								<has-error :form="form" field="alamat" />
+							</div>
+						</div>
+						<div slot="footer">
+							<button class="btn btn-primary" @click="add()" v-if="session_active == 'add'">Simpan</button>
+							<button class="btn btn-primary" @click="edit(form.id)" v-else-if="session_active == 'edit'">Edit</button>
+							&nbsp;
+							<button class="btn btn-secondary" @click="show_modal = false">Close</button>
+						</div>
+					</modal>
 				</div>
 			</div>
-			<div slot="footer">
-				<button class="btn btn-primary" @click="add()" v-if="session_active == 'add'">Simpan</button>
-				<button class="btn btn-primary" @click="edit(form.id)" v-else-if="session_active == 'edit'">Edit</button>
-				&nbsp;
-				<button class="btn btn-secondary" @click="show_modal = false">Close</button>
-			</div>
-		</modal>
+		</div>
 	</div>
 </template>
 <script>

@@ -13,7 +13,7 @@ Route::prefix('auth')->group(function () {
 
 Route::group(['middleware' => 'auth:api'], function () {
 	Route::prefix('user')->group(function () {
-		Route::get('page', 'AuthController@page');
+		Route::get('page', 'UserController@page');
 		Route::get('edit/{id}', 'UserController@edit');
 	});
 	// Route::get('pegawai', 'PegawaiController@view')->name('pegawai');

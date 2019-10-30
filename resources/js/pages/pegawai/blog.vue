@@ -1,7 +1,11 @@
 <template>
-	<div>
-		<p>ini adalah halaman kontak</p>
-		<p>selamat berbelanja</p>
+	<div class="container">
+		<div class="card card-default">
+			<div class="card-header">ini adalah halaman kontak</div>
+			<div class="card-body">
+				<p>selamat berbelanja</p>
+			</div>
+		</div>
 	</div>
 </template>
 <script>
